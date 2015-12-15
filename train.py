@@ -3,15 +3,18 @@ from __future__ import division
 import csv
 import numpy as np
 
-# Open CSV file and read header
-csv_file = csv.reader(open('train.csv', 'rb')) 
-header = csv_file.next()
+# Read training CSV file
+with open('train.csv', 'rb') as train_file:
+    train_obj = csv.reader(train_file)
 
-# Read the remaining line by line
-data = []
-for row in csv_file:
-    data.append(row)
-data = np.array(data) 
+    # Read header
+    header_train = train_file.next()
+
+    # Read the remaining line by line
+    data = []
+    for row in train_obj:
+        data.append(row)
+    data = np.array(data) 
 
 # Compute the proportion of survivors
 num_passengers = np.size(data[0::,1].astype(np.float))
@@ -33,3 +36,10 @@ proportion_men = num_men / num_passengers
 proportion_survived_women = np.sum(data[position_women,1].astype(np.float)) / num_women
 proportion_survived_men = np.sum(data[position_men,1].astype(np.float)) / num_men
 print("Proportion of survivors by gender. Women: {:.0%}. Men: {:.0%}.".format(proportion_survived_women, proportion_survived_men))
+
+# Read test CSV file and write model to new CSV file.
+with open('test.csv', 'rb') as test_file, open('gendermodel.csv', 'wb') as predict_file:
+    test_obj = csv.reader(test_file)
+    header_test = test_file.next()
+    
+    predict_obt = csv.writer(predit_file)
