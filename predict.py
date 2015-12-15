@@ -3,8 +3,11 @@ from __future__ import division
 import csv
 import numpy as np
 
+train_file_name = 'train.csv'
+test_file_name = 'test.csv'
+
 # Read training CSV file
-with open('train.csv', 'rb') as train_file:
+with open(train_file_name, 'rb') as train_file:
     train_obj = csv.reader(train_file)
 
     # Read header
@@ -37,10 +40,11 @@ proportion_survived_women = np.sum(data[position_women,1].astype(np.float)) / nu
 proportion_survived_men = np.sum(data[position_men,1].astype(np.float)) / num_men
 print("Proportion of survivors by gender. Women: {:.0%}. Men: {:.0%}.".format(proportion_survived_women, proportion_survived_men))
 
-# First simple model: only female survives.
+
+#### First simple model: only female survives.
 
 # Read test CSV file and write model to new CSV file.
-with open('test.csv', 'rb') as test_file, open('model_gender.csv', 'wb') as predict_file:
+with open(test_file_name, 'rb') as test_file, open('model_gender.csv', 'wb') as predict_file:
     test_obj = csv.reader(test_file)
     header_test = test_file.next()
     
@@ -54,10 +58,11 @@ with open('test.csv', 'rb') as test_file, open('model_gender.csv', 'wb') as pred
         else:
             predict_obj.writerow([row[0], '0'])
 
-# Second simple model: only female that didn't pay more than 20$ for a third class ticket survives.
+
+#### Second simple model: only female that didn't pay more than 20$ for a third class ticket survives.
 
 # Read test CSV file and write model to new CSV file.
-with open('test.csv', 'rb') as test_file, open('model_genderticket.csv', 'wb') as predict_file:
+with open(test_file_name, 'rb') as test_file, open('model_genderticket.csv', 'wb') as predict_file:
     test_obj = csv.reader(test_file)
     header_test = test_file.next()
     
