@@ -38,8 +38,17 @@ proportion_survived_men = np.sum(data[position_men,1].astype(np.float)) / num_me
 print("Proportion of survivors by gender. Women: {:.0%}. Men: {:.0%}.".format(proportion_survived_women, proportion_survived_men))
 
 # Read test CSV file and write model to new CSV file.
-with open('test.csv', 'rb') as test_file, open('gendermodel.csv', 'wb') as predict_file:
+with open('test.csv', 'rb') as test_file, open('model_gender.csv', 'wb') as predict_file:
     test_obj = csv.reader(test_file)
     header_test = test_file.next()
     
-    predict_obt = csv.writer(predit_file)
+    predict_obj = csv.writer(predict_file)
+    predict_obj.writerow(['PassengerId','Survived'])
+
+    # Apply model to each person
+    for row in test_obj:
+        # Simple model: predict 'survives' if female, 'does not survive' if male.
+        if row[3] == 'female':
+            predict_obj.writerow([row[0], '1'])
+        else:
+            predict_obj.writerow([row[0], '0'])
